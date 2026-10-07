@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>People Powered SF</title>
   <meta name="description" content="Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.">
+  <meta name="theme-color" content="#1B2340">
+  <link rel="canonical" href="https://peoplepoweredsf.org/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="People Powered SF">
+  <meta property="og:title" content="People Powered SF">
+  <meta property="og:description" content="Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.">
+  <meta property="og:url" content="https://peoplepoweredsf.org/">
+  <meta property="og:image" content="https://peoplepoweredsf.org/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="People Powered SF over a skyline of colorful San Francisco row houses at sunset">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="People Powered SF">
+  <meta name="twitter:description" content="Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.">
+  <meta name="twitter:image" content="https://peoplepoweredsf.org/assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,7 +58,8 @@
     /* Nav */
     nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); border-bottom: 1px solid #e6e3da; }
     nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-    nav .brand { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+    nav .brand { display: flex; align-items: center; gap: 10px; font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+    nav .brand .logo { width: 32px; height: 32px; display: block; }
     nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-weight: 600; font-size: .95rem; }
     nav ul a { text-decoration: none; color: var(--muted); }
     nav ul a:hover { color: var(--navy); }
@@ -102,7 +121,7 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#top">People Powered SF</a>
+    <a class="brand" href="#top"><img class="logo" src="assets/logo.svg" alt="" width="32" height="32"><span>People Powered SF</span></a>
     <ul>
       <li><a href="#hosts">Hosts</a></li>
       <li><a href="#rooms">Rooms</a></li>
@@ -113,7 +132,6 @@
 
 <header class="hero" id="top">
   <div class="wrap">
-    <p class="eyebrow">A boundless San Francisco proposal</p>
     <h1>People Powered SF</h1>
     <p class="lede">Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.</p>
     <a class="btn" href="#hosts">See how it works</a>
