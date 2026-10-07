@@ -54,6 +54,7 @@
     h1, h2, h3 { font-family: "Bricolage Grotesque", "Figtree", sans-serif; line-height: 1.1; margin: 0; }
     a { color: inherit; }
     .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    :focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 
     /* Nav */
     nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); border-bottom: 1px solid #e6e3da; }
@@ -63,17 +64,18 @@
     nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-weight: 600; font-size: .95rem; }
     nav ul a { text-decoration: none; color: var(--muted); }
     nav ul a:hover { color: var(--navy); }
+    nav .progress { display: none; }
     @media (max-width: 640px) { nav ul { display: none; } }
 
     /* Hero */
     .hero { background: linear-gradient(180deg,#FFE7C2 0%,#FFD3C4 55%,#FFC2D6 100%); color: var(--navy); padding: 88px 0 0; overflow: hidden; }
     .hero .wrap { padding-bottom: 40px; }
     .hero .skyline { display: block; width: 100%; height: auto; }
-    .eyebrow { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; color: var(--red); margin: 0 0 18px; }
     .hero h1 { font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: 22px; }
     .hero p.lede { font-size: clamp(1.15rem, 2.4vw, 1.5rem); max-width: 660px; color: #3A4366; margin: 0 0 34px; }
+    .hint { display: none; }
     .btn { display: inline-block; background: var(--navy); color: #fff; font-weight: 700; padding: 14px 26px; border-radius: 999px; text-decoration: none; }
-    .btn:hover { filter: brightness(1.07); }
+    .btn:hover { filter: brightness(1.15); }
     .hoods { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 44px; }
     .hoods span { font-size: .72rem; font-weight: 700; letter-spacing: .08em; padding: 6px 12px; border-radius: 999px; color: var(--navy); }
     .hoods span:nth-child(8n+1) { background: var(--yellow); }
@@ -86,35 +88,125 @@
     .hoods span:nth-child(8n+8) { background: var(--yellow); }
 
     /* Sections */
-    section { padding: 88px 0; }
+    section.panel { padding: 88px 0 0; }
     section.tint { background: var(--tint); }
     .tag { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; margin: 0 0 12px; }
     h2 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.015em; margin-bottom: 16px; }
     .intro { font-size: 1.25rem; color: var(--muted); max-width: 700px; margin: 0 0 44px; }
-
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
     .card { background: #fff; border-radius: 16px; padding: 26px; border: 1px solid #e6e3da; border-top-width: 6px; }
-    section.tint .card { border-color: #e6e3da; }
     .card h3 { font-size: 1.35rem; margin-bottom: 8px; }
     .card p { margin: 0; color: var(--muted); }
-
-    .hosts .tag { color: var(--red); }   .hosts .card { border-top-color: var(--red); }
+    .hosts .tag { color: #C23A22; }   .hosts .card { border-top-color: var(--red); }
     .rooms .tag { color: var(--teal); }  .rooms .card { border-top-color: var(--teal); }
     .toolkit .tag { color: var(--green); } .toolkit .card { border-top-color: var(--green); }
-
     .callout { margin-top: 28px; padding: 22px 26px; border-radius: 16px; background: var(--navy); color: #fff; }
     .callout strong { color: var(--yellow); }
     .callout p { margin: 0; }
     .detail { margin-top: 28px; max-width: 760px; color: var(--muted); }
-
-    section { padding-bottom: 0; }
-    section .wrap { padding-bottom: 72px; }
-    section .skyline { display: block; width: 100%; height: auto; }
+    section.panel .wrap { padding-bottom: 72px; }
+    section.panel .skyline { display: block; width: 100%; height: auto; }
+    .ground { display: none; }
 
     /* Footer */
     footer { background: var(--navy); color: #cfd4e6; padding: 56px 0; font-size: .95rem; }
     footer h2 { color: #fff; font-size: 1.8rem; margin-bottom: 10px; }
     footer a { color: var(--yellow); }
+    footer .back { display: none; }
+
+    /* ---------- Horizontal mode: roomy screens only ----------
+       Narrow or short screens keep the stacked page above. */
+    @media (min-width: 1100px) and (min-height: 760px) {
+      html, body { height: 100%; overflow: hidden; }
+      html { scroll-behavior: auto; }
+      body { display: flex; flex-direction: column; height: 100dvh; }
+
+      nav { position: relative; flex: none; }
+      nav .wrap { max-width: none; padding: 0 7vw; }
+      nav .progress { display: block; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px;
+        background: linear-gradient(90deg, var(--red), var(--yellow), var(--pink), var(--blue), var(--green), var(--purple), var(--teal));
+        transform-origin: left center; transform: scaleX(var(--p, 0)); }
+
+      .scroller { flex: 1; min-height: 0; overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth;
+        overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: var(--navy) transparent; }
+      .scroller:focus-visible { outline-offset: -4px; }
+
+      /* one long sky, sunset on the left, dusk on the right */
+      .track { position: relative; display: flex; width: max-content; height: 100%;
+        background: linear-gradient(90deg,
+          #FFE7C2 0%, #FFD3C4 10%, #FFC2D6 20%, #F2D9EE 32%, #DCE8F8 44%, #D3ECF0 56%, #E2F3E8 68%,
+          #DAD8F0 79%, #B9A9DC 90%, #8E79C0 100%); }
+
+      /* the street: skyline tiles laid end to end, every other one mirrored so the hills join up */
+      .ground { display: block; position: absolute; left: 0; bottom: 0; width: 100%; z-index: 1; overflow: hidden; pointer-events: none; }
+      .ground .tiles { display: flex; }
+      .ground .tiles img { flex: 0 0 max(100vw, 1000px); width: max(100vw, 1000px); height: auto; display: block; }
+      .ground .tiles img:nth-child(even) { transform: scaleX(-1); }
+      .ground .tiles { position: relative; z-index: 1; }
+
+
+      /* suns sit behind the street, so the houses cover their lower edge */
+      .track .sun { position: absolute; z-index: 0; bottom: 4vw; width: 14vw; max-width: 240px; aspect-ratio: 1; border-radius: 50%;
+        background: radial-gradient(circle at 50% 38%, #FFD97A 0%, #F6B92B 62%, #F2A23A 100%); pointer-events: none; }
+      .track .sun:not(.setting) { left: 70vw; }
+      .track .sun.setting { left: 413vw; bottom: 1.6vw; width: 22vw; max-width: 400px;
+        background: radial-gradient(circle at 50% 36%, #FFE08A 0%, #FFB347 50%, #F26B3A 100%); box-shadow: 0 0 120px 40px rgba(255, 150, 90, .45); }
+
+      /* the last panel: a sunset sky that fades in from the daytime street */
+      .track .dusk { position: absolute; z-index: 0; top: 0; bottom: 0; left: 400vw; width: 100vw;
+        background: linear-gradient(180deg, #2F2A63 0%, #7E3F86 38%, #D9575A 68%, #F59A3E 88%, #F6B92B 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 42%); mask-image: linear-gradient(90deg, transparent 0%, #000 42%); }
+
+      .track .panel { flex: 0 0 100vw; height: 100%; position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center;
+        padding: 0 7vw clamp(96px, 8.8vw, 160px); background: none; overflow: hidden; }
+      .track .panel .wrap { width: 100%; max-width: 1080px; margin: 0; padding: 0; }
+      .track .panel .skyline { display: none; }
+      .track section.tint { background: none; }
+
+      .hero h1 { font-size: clamp(3rem, 7.4vw, 6.4rem); }
+      .hero p.lede { margin-bottom: 28px; }
+      .hoods { margin-top: 32px; }
+      .hint { display: flex; align-items: center; gap: 10px; margin: 30px 0 0; font-weight: 700; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); }
+      .hint span { display: inline-block; }
+
+      h2 { font-size: clamp(1.9rem, 3.8vw, 3.1rem); margin-bottom: 10px; }
+      .intro { font-size: 1.12rem; margin-bottom: 22px; max-width: 760px; }
+      .callout { margin-top: 20px; padding: 16px 22px; }
+      .detail { margin-top: 20px; font-size: 1rem; line-height: 1.55; max-width: 820px; }
+      .card { padding: 20px 22px; }
+      .card p { font-size: 1rem; line-height: 1.5; }
+      .tag { margin-bottom: 8px; }
+
+      .track footer.panel { align-items: flex-end; justify-content: center; padding-bottom: clamp(180px, 20vw, 300px); color: #fff; }
+      .track footer.panel p { color: #FBEFF4; }
+      .track footer.panel a { color: #FFD97A; }
+      .track footer.panel .wrap { max-width: 440px; }
+      footer .back { display: inline-block; margin-top: 18px; font-weight: 700; }
+
+      @media (max-height: 840px) {
+        .intro { margin-bottom: 16px; }
+        .callout { margin-top: 14px; padding: 12px 20px; }
+        .callout p { line-height: 1.45; }
+        .detail { margin-top: 14px; font-size: .94rem; line-height: 1.5; }
+        .card { padding: 16px 20px; }
+        .hero .hoods { margin-top: 24px; }
+        .hint { margin-top: 20px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) { .scroller { scroll-behavior: auto; } }
+
+      /* content floats in as it reaches the screen */
+      @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+          @keyframes arrive { from { opacity: 0; transform: translateX(90px); } to { opacity: 1; transform: none; } }
+          .reveal { animation: arrive linear both; animation-timeline: view(inline); animation-range: entry 0% entry 65%; }
+          .reveal.d2 { animation-range: entry 8% entry 78%; }
+          .reveal.d3 { animation-range: entry 16% entry 90%; }
+          @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+          .hint span { animation: nudge 1.6s ease-in-out infinite; }
+        }
+      }
+    }
   </style>
 </head>
 <body>
@@ -128,77 +220,149 @@
       <li><a href="#toolkit">Toolkit</a></li>
     </ul>
   </div>
+  <div class="progress" aria-hidden="true"></div>
 </nav>
 
-<header class="hero" id="top">
-  <div class="wrap">
-    <h1>People Powered SF</h1>
-    <p class="lede">Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.</p>
-    <a class="btn" href="#hosts">See how it works</a>
-    <div class="hoods" aria-label="Neighborhoods">
-      <span>SUNSET</span><span>RICHMOND</span><span>MISSION</span><span>BAYVIEW</span><span>EXCELSIOR</span>
-      <span>CHINATOWN</span><span>TENDERLOIN</span><span>VISITACION VALLEY</span><span>NORTH BEACH</span><span>CASTRO</span>
+<main class="scroller" id="scroller" tabindex="0" aria-label="People Powered SF. On wide screens the page scrolls sideways.">
+<div class="track">
+
+  <div class="dusk" aria-hidden="true"></div>
+  <div class="sun" aria-hidden="true"></div>
+  <div class="sun setting" aria-hidden="true"></div>
+
+  <div class="ground" aria-hidden="true">
+    <div class="tiles">
+      <img src="assets/skyline.svg" alt=""><img src="assets/skyline.svg" alt=""><img src="assets/skyline.svg" alt="">
+      <img src="assets/skyline.svg" alt=""><img src="assets/skyline.svg" alt="">
     </div>
   </div>
-  <img class="skyline" src="assets/skyline-hero.svg" alt="" aria-hidden="true">
-</header>
 
-<main>
-  <section class="hosts tint" id="hosts">
+  <header class="panel hero" id="top">
     <div class="wrap">
-      <p class="tag">1 · The role</p>
-      <h2>Neighborhood Hosts</h2>
-      <p class="intro">Teams of neighbors whose job is to bring people together, help them decide, and recruit more of their neighbors to host.</p>
-      <div class="cards">
-        <div class="card"><h3>Welcome</h3><p>New neighbors, stoop coffees, gatherings, build-a-thons.</p></div>
-        <div class="card"><h3>Facilitate</h3><p>Neighbors with different views working through live questions together.</p></div>
-        <div class="card"><h3>Multiply</h3><p>Success is measured by how many neighbors become hosts themselves.</p></div>
+      <h1>People Powered SF</h1>
+      <p class="lede">Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.</p>
+      <a class="btn" href="#hosts">See how it works</a>
+      <div class="hoods" aria-label="Neighborhoods">
+        <span>SUNSET</span><span>RICHMOND</span><span>MISSION</span><span>BAYVIEW</span><span>EXCELSIOR</span>
+        <span>CHINATOWN</span><span>TENDERLOIN</span><span>VISITACION VALLEY</span><span>NORTH BEACH</span><span>CASTRO</span>
       </div>
-      <div class="callout"><p><strong>Sunset Host → co-hosts → a network of hosts on each block.</strong></p></div>
-      <p class="detail">Each neighborhood gets a small host team named for its place: the Sunset Host, the Mission Host. The role is designed to multiply: hosts become co-hosts, then hosting collectives, until block-level hosts are a known and celebrated role. Philanthropy funds the role first, on the community health worker path, with the goal of moving it into public budgets.</p>
+      <p class="hint" aria-hidden="true">Scroll sideways <span>→</span></p>
+    </div>
+    <img class="skyline" src="assets/skyline-hero.svg" alt="" aria-hidden="true">
+  </header>
+
+  <section class="panel hosts tint" id="hosts">
+    <div class="wrap">
+      <p class="tag reveal">1 · The role</p>
+      <h2 class="reveal">Neighborhood Hosts</h2>
+      <p class="intro reveal">Teams of neighbors whose job is to bring people together, help them decide, and recruit more of their neighbors to host.</p>
+      <div class="cards">
+        <div class="card reveal"><h3>Welcome</h3><p>New neighbors, stoop coffees, gatherings, build-a-thons.</p></div>
+        <div class="card reveal d2"><h3>Facilitate</h3><p>Neighbors with different views working through live questions together.</p></div>
+        <div class="card reveal d3"><h3>Multiply</h3><p>Success is measured by how many neighbors become hosts themselves.</p></div>
+      </div>
+      <div class="callout reveal"><p><strong>Sunset Host → co-hosts → a network of hosts on each block.</strong></p></div>
+      <p class="detail reveal">Each neighborhood gets a small host team named for its place: the Sunset Host, the Mission Host. The role is designed to multiply: hosts become co-hosts, then hosting collectives, until block-level hosts are a known and celebrated role. Philanthropy funds the role first, on the community health worker path, with the goal of moving it into public budgets.</p>
     </div>
     <img class="skyline" src="assets/skyline.svg" alt="" aria-hidden="true">
   </section>
 
-  <section class="rooms" id="rooms">
+  <section class="panel rooms" id="rooms">
     <div class="wrap">
-      <p class="tag">2 · The place</p>
-      <h2>Neighbor Rooms</h2>
-      <p class="intro">A room in every neighborhood where neighbors meet, work through hard questions, and build things together.</p>
+      <p class="tag reveal">2 · The place</p>
+      <h2 class="reveal">Neighbor Rooms</h2>
+      <p class="intro reveal">A room in every neighborhood where neighbors meet, work through hard questions, and build things together.</p>
       <div class="cards">
-        <div class="card"><h3>Start with what exists</h3><p>Libraries, rec centers, churches, cultural centers, civic hubs.</p></div>
-        <div class="card"><h3>Fill the gaps</h3><p>Vacant storefronts become civic space.</p></div>
-        <div class="card"><h3>Own what serves us</h3><p>Proven rooms move into permanent community ownership.</p></div>
+        <div class="card reveal"><h3>Start with what exists</h3><p>Libraries, rec centers, churches, cultural centers, civic hubs.</p></div>
+        <div class="card reveal d2"><h3>Fill the gaps</h3><p>Vacant storefronts become civic space.</p></div>
+        <div class="card reveal d3"><h3>Own what serves us</h3><p>Proven rooms move into permanent community ownership.</p></div>
       </div>
-      <div class="callout"><p><strong>In the room:</strong> community meetings · coworking · build-a-thons · club fairs · deliberations. Each neighborhood also gets a fund its neighbors direct: microgrants, tutoring, clubs, tool lending.</p></div>
-      <p class="detail">We start by mapping spaces neighbors already use and building capacity there, then rent where there are gaps. Many rooms will cost close to nothing. Filling empty storefronts with civic life is good for the whole block.</p>
+      <div class="callout reveal"><p><strong>In the room:</strong> community meetings · coworking · build-a-thons · club fairs · deliberations. Each neighborhood also gets a fund its neighbors direct: microgrants, tutoring, clubs, tool lending.</p></div>
+      <p class="detail reveal">We start by mapping spaces neighbors already use and building capacity there, then rent where there are gaps. Many rooms will cost close to nothing. Filling empty storefronts with civic life is good for the whole block.</p>
     </div>
     <img class="skyline" src="assets/skyline.svg" alt="" aria-hidden="true">
   </section>
 
-  <section class="toolkit tint" id="toolkit">
+  <section class="panel toolkit tint" id="toolkit">
     <div class="wrap">
-      <p class="tag">3 · The toolkit</p>
-      <h2>Relational Tech + Deliberation Tech</h2>
-      <p class="intro">Open tools every host can use, so one neighborhood’s success is the next one’s head start.</p>
+      <p class="tag reveal">3 · The toolkit</p>
+      <h2 class="reveal">Relational Tech + Deliberation Tech</h2>
+      <p class="intro reveal">Open tools every host can use, so one neighborhood’s success is the next one’s head start.</p>
       <div class="cards">
-        <div class="card"><h3>Relational tech</h3><p>The Relational Tech Project’s Relational Builder and neighbor-built tools, like the dozen already live in the Outer Sunset.</p></div>
-        <div class="card"><h3>Deliberation tech</h3><p>Bloom’s CivicOS and civic assemblies. In Fort Collins, an assembly produced a recommendation voters approved with 68%.</p></div>
-        <div class="card"><h3>Commons + network</h3><p>An SF Commons of Ideas to remix, and hosts who train and coach each other.</p></div>
+        <div class="card reveal"><h3>Relational tech</h3><p>The Relational Tech Project’s Relational Builder and neighbor-built tools, like the dozen already live in the Outer Sunset.</p></div>
+        <div class="card reveal d2"><h3>Deliberation tech</h3><p>Bloom’s CivicOS and civic assemblies. In Fort Collins, an assembly produced a recommendation voters approved with 68%.</p></div>
+        <div class="card reveal d3"><h3>Commons + network</h3><p>An SF Commons of Ideas to remix, and hosts who train and coach each other.</p></div>
       </div>
-      <div class="callout"><p><strong>Live example: screens and AI in SFUSD classrooms.</strong> The policy goes to the school board in March 2027. Recommendations from a dozen neighborhoods could reach it first, with their reasoning attached.</p></div>
-      <p class="detail">Hosts pick the process that fits the question, from a house meeting to a neighborhood assembly. The Sunset Host convenes parents, teachers, and principals in the Sunset Neighbor Room; the Mission Host borrows the process the next week. Along the way neighbors find each other’s skills and start tutoring, theater, and reading clubs.</p>
+      <div class="callout reveal"><p><strong>Live example: screens and AI in SFUSD classrooms.</strong> The policy goes to the school board in March 2027. Recommendations from a dozen neighborhoods could reach it first, with their reasoning attached.</p></div>
+      <p class="detail reveal">Hosts pick the process that fits the question, from a house meeting to a neighborhood assembly. The Sunset Host convenes parents, teachers, and principals in the Sunset Neighbor Room; the Mission Host borrows the process the next week. Along the way neighbors find each other’s skills and start tutoring, theater, and reading clubs.</p>
     </div>
     <img class="skyline" src="assets/skyline.svg" alt="" aria-hidden="true">
   </section>
+
+  <footer class="panel end" id="end">
+    <div class="wrap">
+      <h2>People Powered SF</h2>
+      <p>A project of <a href="https://bloom-project.org">Bloom Project</a> and the <a href="https://relationaltechproject.org/">Relational Tech Project</a>.</p>
+      <a class="back" href="#top">← Back to the start</a>
+    </div>
+  </footer>
+
+</div>
 </main>
 
-<footer>
-  <div class="wrap">
-    <h2>People Powered SF</h2>
-    <p>A project of <a href="https://bloom-project.org">Bloom Project</a> and the <a href="https://relationaltechproject.org/">Relational Tech Project</a>.</p>
-  </div>
-</footer>
+<script>
+(function () {
+  var sc = document.getElementById('scroller');
+  var mq = window.matchMedia('(min-width: 1100px) and (min-height: 760px)');
+
+  function progress() {
+    var max = sc.scrollWidth - sc.clientWidth;
+    document.documentElement.style.setProperty('--p', max > 0 ? (sc.scrollLeft / max).toFixed(4) : 0);
+  }
+  sc.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress);
+  progress();
+
+  // mouse wheel and vertical trackpad swipes move the page sideways
+  sc.addEventListener('wheel', function (e) {
+    if (!mq.matches || e.ctrlKey || e.shiftKey) return;
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      sc.scrollBy({ left: e.deltaY * (e.deltaMode === 1 ? 16 : 1), behavior: 'instant' });
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // keyboard: arrows, space and page keys all travel sideways
+  sc.addEventListener('keydown', function (e) {
+    if (!mq.matches || e.target !== sc) return;
+    var page = sc.clientWidth * 0.9, k = e.key, d = 0;
+    if (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) d = page;
+    else if (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) d = -page;
+    else if (k === 'ArrowRight') d = 140;
+    else if (k === 'ArrowLeft') d = -140;
+    else if (k === 'Home') { e.preventDefault(); sc.scrollTo({ left: 0 }); return; }
+    else if (k === 'End') { e.preventDefault(); sc.scrollTo({ left: sc.scrollWidth }); return; }
+    if (d) { e.preventDefault(); sc.scrollBy({ left: d }); }
+  });
+
+  // in-page links glide to the right panel
+  function go(hash, smooth) {
+    var el = hash && document.querySelector(hash);
+    if (!el) return false;
+    sc.scrollTo({ left: el.offsetLeft, behavior: smooth ? 'smooth' : 'instant' });
+    return true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || !mq.matches) return;
+    if (go(a.getAttribute('href'), true)) { e.preventDefault(); history.replaceState(null, '', a.getAttribute('href')); }
+  });
+  if (mq.matches) {
+    if (location.hash) go(location.hash, false);
+    sc.focus({ preventScroll: true });
+  }
+})();
+</script>
 
 </body>
 </html>
