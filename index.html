@@ -4,21 +4,183 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>People Powered SF</title>
+  <meta name="description" content="Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      max-width: 640px;
-      margin: 15vh auto;
-      padding: 0 1.5rem;
-      line-height: 1.6;
-      color: #222;
+    :root {
+      --navy: #1B2340;
+      --teal: #1E7F8C;
+      --red: #E8462B;
+      --yellow: #F6B92B;
+      --pink: #F28DB2;
+      --purple: #B79CF0;
+      --blue: #8FC7E8;
+      --green: #2F8F5B;
+      --paper: #FFFFFF;
+      --tint: #F5F3EE;
+      --ink: #1B2340;
+      --muted: #4A526B;
     }
-    h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
-    p { font-size: 1.15rem; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Figtree", system-ui, sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    h1, h2, h3 { font-family: "Bricolage Grotesque", "Figtree", sans-serif; line-height: 1.1; margin: 0; }
+    a { color: inherit; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); border-bottom: 1px solid #e6e3da; }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    nav .brand { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+    nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-weight: 600; font-size: .95rem; }
+    nav ul a { text-decoration: none; color: var(--muted); }
+    nav ul a:hover { color: var(--navy); }
+    @media (max-width: 640px) { nav ul { display: none; } }
+
+    /* Hero */
+    .hero { background: linear-gradient(180deg,#FFE7C2 0%,#FFD3C4 55%,#FFC2D6 100%); color: var(--navy); padding: 88px 0 0; overflow: hidden; }
+    .hero .wrap { padding-bottom: 40px; }
+    .hero .skyline { display: block; width: 100%; height: auto; }
+    .eyebrow { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; color: var(--red); margin: 0 0 18px; }
+    .hero h1 { font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: 22px; }
+    .hero p.lede { font-size: clamp(1.15rem, 2.4vw, 1.5rem); max-width: 660px; color: #3A4366; margin: 0 0 34px; }
+    .btn { display: inline-block; background: var(--navy); color: #fff; font-weight: 700; padding: 14px 26px; border-radius: 999px; text-decoration: none; }
+    .btn:hover { filter: brightness(1.07); }
+    .hoods { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 44px; }
+    .hoods span { font-size: .72rem; font-weight: 700; letter-spacing: .08em; padding: 6px 12px; border-radius: 999px; color: var(--navy); }
+    .hoods span:nth-child(8n+1) { background: var(--yellow); }
+    .hoods span:nth-child(8n+2) { background: var(--pink); }
+    .hoods span:nth-child(8n+3) { background: var(--blue); }
+    .hoods span:nth-child(8n+4) { background: var(--purple); }
+    .hoods span:nth-child(8n+5) { background: #7fd1a4; }
+    .hoods span:nth-child(8n+6) { background: #f5917c; }
+    .hoods span:nth-child(8n+7) { background: #6fc3cc; }
+    .hoods span:nth-child(8n+8) { background: var(--yellow); }
+
+    /* Sections */
+    section { padding: 88px 0; }
+    section.tint { background: var(--tint); }
+    .tag { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; margin: 0 0 12px; }
+    h2 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.015em; margin-bottom: 16px; }
+    .intro { font-size: 1.25rem; color: var(--muted); max-width: 700px; margin: 0 0 44px; }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 16px; padding: 26px; border: 1px solid #e6e3da; border-top-width: 6px; }
+    section.tint .card { border-color: #e6e3da; }
+    .card h3 { font-size: 1.35rem; margin-bottom: 8px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    .hosts .tag { color: var(--red); }   .hosts .card { border-top-color: var(--red); }
+    .rooms .tag { color: var(--teal); }  .rooms .card { border-top-color: var(--teal); }
+    .toolkit .tag { color: var(--green); } .toolkit .card { border-top-color: var(--green); }
+
+    .callout { margin-top: 28px; padding: 22px 26px; border-radius: 16px; background: var(--navy); color: #fff; }
+    .callout strong { color: var(--yellow); }
+    .callout p { margin: 0; }
+    .detail { margin-top: 28px; max-width: 760px; color: var(--muted); }
+
+    section { padding-bottom: 0; }
+    section .wrap { padding-bottom: 72px; }
+    section .skyline { display: block; width: 100%; height: auto; }
+
+    /* Footer */
+    footer { background: var(--navy); color: #cfd4e6; padding: 56px 0; font-size: .95rem; }
+    footer h2 { color: #fff; font-size: 1.8rem; margin-bottom: 10px; }
+    footer a { color: var(--yellow); }
   </style>
 </head>
 <body>
-  <h1>People Powered SF</h1>
-  <p>Welcome! Our site is coming soon.</p>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">People Powered SF</a>
+    <ul>
+      <li><a href="#hosts">Hosts</a></li>
+      <li><a href="#rooms">Rooms</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">A boundless San Francisco proposal</p>
+    <h1>People Powered SF</h1>
+    <p class="lede">Neighborhood Hosts and a Neighbor Room in every San Francisco neighborhood, connected by a shared toolkit.</p>
+    <a class="btn" href="#hosts">See how it works</a>
+    <div class="hoods" aria-label="Neighborhoods">
+      <span>SUNSET</span><span>RICHMOND</span><span>MISSION</span><span>BAYVIEW</span><span>EXCELSIOR</span>
+      <span>CHINATOWN</span><span>TENDERLOIN</span><span>VISITACION VALLEY</span><span>NORTH BEACH</span><span>CASTRO</span>
+    </div>
+  </div>
+  <img class="skyline" src="assets/skyline-hero.svg" alt="" aria-hidden="true">
+</header>
+
+<main>
+  <section class="hosts tint" id="hosts">
+    <div class="wrap">
+      <p class="tag">1 · The role</p>
+      <h2>Neighborhood Hosts</h2>
+      <p class="intro">Teams of neighbors whose job is to bring people together, help them decide, and recruit more of their neighbors to host.</p>
+      <div class="cards">
+        <div class="card"><h3>Welcome</h3><p>New neighbors, stoop coffees, gatherings, build-a-thons.</p></div>
+        <div class="card"><h3>Facilitate</h3><p>Neighbors with different views working through live questions together.</p></div>
+        <div class="card"><h3>Multiply</h3><p>Success is measured by how many neighbors become hosts themselves.</p></div>
+      </div>
+      <div class="callout"><p><strong>Sunset Host → co-hosts → a network of hosts on each block.</strong></p></div>
+      <p class="detail">Each neighborhood gets a small host team named for its place: the Sunset Host, the Mission Host. The role is designed to multiply: hosts become co-hosts, then hosting collectives, until block-level hosts are a known and celebrated role. Philanthropy funds the role first, on the community health worker path, with the goal of moving it into public budgets.</p>
+    </div>
+    <img class="skyline" src="assets/skyline.svg" alt="" aria-hidden="true">
+  </section>
+
+  <section class="rooms" id="rooms">
+    <div class="wrap">
+      <p class="tag">2 · The place</p>
+      <h2>Neighbor Rooms</h2>
+      <p class="intro">A room in every neighborhood where neighbors meet, work through hard questions, and build things together.</p>
+      <div class="cards">
+        <div class="card"><h3>Start with what exists</h3><p>Libraries, rec centers, churches, cultural centers, civic hubs.</p></div>
+        <div class="card"><h3>Fill the gaps</h3><p>Vacant storefronts become civic space.</p></div>
+        <div class="card"><h3>Own what serves us</h3><p>Proven rooms move into permanent community ownership.</p></div>
+      </div>
+      <div class="callout"><p><strong>In the room:</strong> community meetings · coworking · build-a-thons · club fairs · deliberations. Each neighborhood also gets a fund its neighbors direct: microgrants, tutoring, clubs, tool lending.</p></div>
+      <p class="detail">We start by mapping spaces neighbors already use and building capacity there, then rent where there are gaps. Many rooms will cost close to nothing. Filling empty storefronts with civic life is good for the whole block.</p>
+    </div>
+    <img class="skyline" src="assets/skyline.svg" alt="" aria-hidden="true">
+  </section>
+
+  <section class="toolkit tint" id="toolkit">
+    <div class="wrap">
+      <p class="tag">3 · The toolkit</p>
+      <h2>Relational Tech + Deliberation Tech</h2>
+      <p class="intro">Open tools every host can use, so one neighborhood’s success is the next one’s head start.</p>
+      <div class="cards">
+        <div class="card"><h3>Relational tech</h3><p>The Relational Tech Project’s Relational Builder and neighbor-built tools, like the dozen already live in the Outer Sunset.</p></div>
+        <div class="card"><h3>Deliberation tech</h3><p>Bloom’s CivicOS and civic assemblies. In Fort Collins, an assembly produced a recommendation voters approved with 68%.</p></div>
+        <div class="card"><h3>Commons + network</h3><p>An SF Commons of Ideas to remix, and hosts who train and coach each other.</p></div>
+      </div>
+      <div class="callout"><p><strong>Live example: screens and AI in SFUSD classrooms.</strong> The policy goes to the school board in March 2027. Recommendations from a dozen neighborhoods could reach it first, with their reasoning attached.</p></div>
+      <p class="detail">Hosts pick the process that fits the question, from a house meeting to a neighborhood assembly. The Sunset Host convenes parents, teachers, and principals in the Sunset Neighbor Room; the Mission Host borrows the process the next week. Along the way neighbors find each other’s skills and start tutoring, theater, and reading clubs.</p>
+    </div>
+    <img class="skyline" src="assets/skyline.svg" alt="" aria-hidden="true">
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2>People Powered SF</h2>
+    <p>A project of <a href="https://bloom-project.org">Bloom Project</a> and the Relational Tech Project.</p>
+  </div>
+</footer>
+
 </body>
 </html>
